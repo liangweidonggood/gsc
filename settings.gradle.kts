@@ -3,12 +3,18 @@ rootProject.name = "gsc"
 val modules = listOf(
     "gsc-biz",
     "gsc-biz:gsc-biz-common",
+    "gsc-biz:gsc-biz-common:gsc-biz-common-core",
+    "gsc-biz:gsc-biz-common:gsc-biz-common-datasource",
+    "gsc-biz:gsc-biz-common:gsc-biz-common-config",
     "gsc-biz:gsc-biz-system",
-    "gsc-starter",
-    "gsc-starter:gsc-local-starter",
-    "gsc-starter:gsc-cloud-starter",
-    "gsc-starter:gsc-cloud-starter:gsc-cloud-gateway",
-    "gsc-starter:gsc-cloud-starter:gsc-cloud-system"
+    "gsc-biz:gsc-biz-system:gsc-biz-system-api",
+    "gsc-biz:gsc-biz-system:gsc-biz-system-impl",
+    "gsc-apps",
+    "gsc-apps:gsc-boot-app",
+    "gsc-apps:gsc-cloud-apps",
+    "gsc-apps:gsc-cloud-apps:gsc-cloud-auth-app",
+    "gsc-apps:gsc-cloud-apps:gsc-cloud-gateway-app",
+    "gsc-apps:gsc-cloud-apps:gsc-cloud-system-app"
 )
 modules.forEach { moduleName ->
     include(moduleName)

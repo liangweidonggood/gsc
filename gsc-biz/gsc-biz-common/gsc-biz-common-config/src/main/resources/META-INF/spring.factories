@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.lwd.gsc.common.config.autoconfig.ConfigCenterAutoConfiguration,\
+com.lwd.gsc.common.config.autoconfig.DataSourceConfigAutoConfiguration
