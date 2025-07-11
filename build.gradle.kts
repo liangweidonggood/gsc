@@ -32,6 +32,8 @@ subprojects {
             dependency("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.12")
             dependency("com.baomidou:mybatis-plus-boot-starter-test:3.5.12")
             dependency("mysql:mysql-connector-java:8.0.33")
+            dependency("com.alibaba:druid-spring-boot-3-starter:1.2.25")
+            dependency("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.4.0")
         }
     }
 }

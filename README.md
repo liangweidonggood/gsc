@@ -31,13 +31,13 @@ startup.cmd -m standalone
 
 中间件
 
-|               | 名称        | 版本  | 说明              |
-| ------------- | ----------- | ----- | ----------------- |
-| 数据库        | postgresql  | 17    |                   |
-| 时序数据库    | timescaledb |       | pgsql插件         |
-| 缓存          | redis       | 8.0.3 |                   |
-| 消息队列/mqtt | rabbitmq    |       | 备选apache-pulsar |
-| 前端展示      | nginx       | 1.24  |                   |
+|               | 名称        | 版本  | 说明                                                       |
+| ------------- | ----------- | ----- | ---------------------------------------------------------- |
+| 数据库        | postgresql  | 17    | postgresql-17.5-3-windows-x64.exe                          |
+| 时序数据库    | timescaledb |       | pgsql插件<br />timescaledb-postgresql-17-windows-amd64.zip |
+| 缓存          | redis       | 8.0.3 |                                                            |
+| 消息队列/mqtt | rabbitmq    |       | 备选apache-pulsar                                          |
+| 前端展示      | nginx       | 1.24  |                                                            |
 
 后端
 
@@ -71,6 +71,89 @@ startup.cmd -m standalone
 
 。
 
+# 打包
+
+```bash
+# 打包
+./gradlew --refresh-dependencies build
+./gradlew :gsc-apps:gsc-boot-app:build
+# 跳过测试
+./gradlew :gsc-apps:gsc-boot-app:build -x test
+# 运行
+java -jar  .\gsc-boot-app.jar  --spring.profiles.active=prod
+
+# 指定外部
+D:\deploy\
+├── boot-app.jar
+├── application-prod.yml
+└── logback-spring.xml
+java -jar .\gsc-boot-app.jar --spring.profiles.active=test --spring.config.location=./ 
+# 可以加上日志配置-Dlogging.config=./logback-spring.xml 但没必要
+```
+
+。
+
+# 健康检查
+
+配合k8s部署
+
+```
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: management-port
+  initialDelaySeconds: 600   # 初始延迟设为 10 分钟，确保足够长 启动时间 + 20% 缓冲
+  periodSeconds: 20          # 每 20 秒探测一次
+  timeoutSeconds: 5          # 单次探测最多等 5 秒
+  successThreshold: 1        # HTTP 200 即为成功
+  failureThreshold: 5        # 连续失败 5 次标记为 Not Ready
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: management-port
+  initialDelaySeconds: 900   # 初始延迟设为 15 分钟，防止误杀
+  periodSeconds: 30          # 每 30 秒探测一次
+  timeoutSeconds: 10         # 单次探测最多等 10 秒
+  successThreshold: 1
+  failureThreshold: 3        # 连续失败 3 次触发容器重启
+```
+
+http://localhost:8888/actuator/health/liveness
+
+```bash
+http://localhost:8888/actuator
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8888/actuator",
+      "templated": false
+    },
+    "health": {
+      "href": "http://localhost:8888/actuator/health",
+      "templated": false
+    },
+    "health-path": {
+      "href": "http://localhost:8888/actuator/health/{*path}",
+      "templated": true
+    }
+  }
+}
+http://localhost:8888/actuator/health
+{
+  "status": "UP",
+  "groups": [
+    "liveness",
+    "readiness"
+  ]
+}
+{
+  "status": "UP"
+}
+```
+
+。
+
 # 服务安装
 
 # postgresql
@@ -78,6 +161,8 @@ startup.cmd -m standalone
 包含timescaledb
 
 ```bash
+create schema gsc;
+# 
 create schema gsc_nacos
 DROP SCHEMA gsc_nacos CASCADE;
 ```
@@ -93,7 +178,6 @@ DROP SCHEMA gsc_nacos CASCADE;
 插件：https://github.com/nacos-group/nacos-plugin
 
 支持postgresql:https://github.com/nacos-group/nacos-plugin/tree/develop/nacos-datasource-plugin-ext/nacos-postgresql-datasource-plugin-ext
-
 
 插件
 
@@ -156,7 +240,6 @@ Nacos 节点之间通信时，会将这两个配置写入请求头中：
 
 identity-key: serverIdentityKey
 identity-value: serverIdentityValue
-
 
 3.导入脚本
 
