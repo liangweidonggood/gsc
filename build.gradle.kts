@@ -6,7 +6,7 @@ allprojects {
     repositories {
         mavenLocal()
         maven {
-            url = uri("http://10.8.33.254:8081/repository/maven-public/")
+            url = uri("http://123.52.43.113:13002/repository/maven-public/")
             isAllowInsecureProtocol = true
         }
         maven { url = uri("https://repo.spring.io/release") }
@@ -34,6 +34,9 @@ subprojects {
             dependency("mysql:mysql-connector-java:8.0.33")
             dependency("com.alibaba:druid-spring-boot-3-starter:1.2.25")
             dependency("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.4.0")
+            dependency("io.jsonwebtoken:jjwt-api:0.12.6")
+            dependency("io.jsonwebtoken:jjwt-impl:0.12.6")
+            dependency("io.jsonwebtoken:jjwt-jackson:0.12.6")
         }
     }
 }

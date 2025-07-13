@@ -7,11 +7,16 @@ package com.lwd.gsc.common.result;
 public enum ResultCode {
     /* 成功状态码 */
     SUCCESS(200, "操作成功"),
-    FAIL(500, "系统异常"),
+
+
+
+    INVALID_CREDENTIALS(40101, "用户名或密码错误"),
     PARAM_ERROR(400, "参数错误"),
-    AUTH_ERROR(401, "用户名或密码错误"),
+    AUTH_ERROR(401, "请求未授权"),
     NOT_FOUND(404, "Not Found"),
+    FAIL(500, "系统异常"),
     NULL_POINTER(500, "空指针异常");
+
 
     private final Integer code;
     private final String message;

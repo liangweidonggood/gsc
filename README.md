@@ -4,6 +4,7 @@ startup.cmd -m standalone
 
 部署和远维
 
+
 |          | 名称       | 版本   | 说明    |
 | -------- | ---------- | ------ | ------- |
 | 容器     | docker     | 24     |         |
@@ -15,6 +16,7 @@ startup.cmd -m standalone
 
 设计
 
+
 |            | 名称          | 版本 | 说明 |
 | ---------- | ------------- | ---- | ---- |
 | 原型       | axure         | 9    |      |
@@ -24,12 +26,14 @@ startup.cmd -m standalone
 
 开发工具
 
+
 |          | 名称   | 版本   | 说明 |
 | -------- | ------ | ------ | ---- |
 | 开发工具 | idea   | 2025.1 |      |
 | 文档工具 | vscode |        |      |
 
 中间件
+
 
 |               | 名称        | 版本  | 说明                                                       |
 | ------------- | ----------- | ----- | ---------------------------------------------------------- |
@@ -40,6 +44,7 @@ startup.cmd -m standalone
 | 前端展示      | nginx       | 1.24  |                                                            |
 
 后端
+
 
 |                | 名称               | 版本       | 说明                 |
 | -------------- | ------------------ | ---------- | -------------------- |
@@ -61,6 +66,7 @@ startup.cmd -m standalone
 | 工作流         | flowable           |            |                      |
 
 前端
+
 
 |          | 名称       | 版本 | 说明 |
 | -------- | ---------- | ---- | ---- |
@@ -283,6 +289,14 @@ nacos/nacos
 https://github.com/redis/redis/releases
 
 https://github.com/redis-windows/redis-windows
+
+# oauth2
+
+github.clientid:Ov23lir3KsWWFaFLPhtE
+
+secrets:3e34988a71462aeaeb4c9a6a1aca079c9cf0f35d
+
+http://localhost:8888/oauth2/authorization/github
 
 # 服务类型
 

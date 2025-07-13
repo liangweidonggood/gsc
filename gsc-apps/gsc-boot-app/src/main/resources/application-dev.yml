@@ -46,7 +46,18 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23lir3KsWWFaFLPhtE
+            client-secret: 3e34988a71462aeaeb4c9a6a1aca079c9cf0f35d
 
+jwt:
+  secret: 1234567890123456789012345678901#
+  access-token-expiration: 30m
+  refresh-token-expiration: 30d
 # springdoc-openapi项目配置
 springdoc:
   swagger-ui:

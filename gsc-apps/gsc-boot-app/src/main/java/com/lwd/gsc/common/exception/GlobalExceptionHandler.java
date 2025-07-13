@@ -2,6 +2,7 @@ package com.lwd.gsc.common.exception;
 
 import com.lwd.gsc.common.result.ResResult;
 import com.lwd.gsc.common.result.ResultCode;
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +68,13 @@ public class GlobalExceptionHandler {
     public ResResult<?> handleResourceNotFound() {
         return ResResult.fail(ResultCode.NOT_FOUND);
     }
+
+    @ExceptionHandler(JwtException.class)
+    public ResResult<?> handleJwtException(JwtException ex) {
+        log.error("Exception", ex);
+        return ResResult.fail(ResultCode.AUTH_ERROR);
+    }
+
 
     /**
      * 处理所有未捕获的异常

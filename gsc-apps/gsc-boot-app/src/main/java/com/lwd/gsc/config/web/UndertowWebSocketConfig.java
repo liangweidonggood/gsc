@@ -1,4 +1,4 @@
-package com.lwd.gsc.config;
+package com.lwd.gsc.config.web;
 
 import io.undertow.server.DefaultByteBufferPool;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
