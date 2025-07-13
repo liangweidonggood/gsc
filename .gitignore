@@ -34,3 +34,4 @@ out/
 
 ### VS Code ###
 .vscode/
+/gsc-apps/gsc-boot-app/logs/
