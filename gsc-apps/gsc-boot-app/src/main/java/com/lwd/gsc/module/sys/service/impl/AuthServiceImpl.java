@@ -4,6 +4,8 @@ import com.lwd.gsc.module.sys.model.vo.TokenInfo;
 import com.lwd.gsc.module.sys.service.AuthService;
 import com.lwd.gsc.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -17,6 +19,12 @@ import java.util.Map;
 public class AuthServiceImpl implements AuthService {
 
     private final JwtUtil jwtUtil;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
+
     @Override
     public TokenInfo login(String username, String password) {
         // 验证用户名和密码是否正确
