@@ -1,4 +1,5 @@
 import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+import org.gradle.kotlin.dsl.annotationProcessor
 
 plugins {
     id("java-library")
@@ -26,9 +27,12 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
+    //JPA 元模型生成器
+    annotationProcessor ("org.hibernate.orm:hibernate-jpamodelgen")
 
 }
 // 配置测试任务使用 JUnit 5
 tasks.test {
     useJUnitPlatform()
 }
+

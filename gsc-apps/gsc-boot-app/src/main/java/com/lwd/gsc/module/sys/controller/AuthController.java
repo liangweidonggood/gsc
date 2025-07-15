@@ -8,6 +8,10 @@ import com.lwd.gsc.module.sys.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
     private final AuthService authService;
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
     public ResResult<TokenInfo> login(@Valid @RequestBody AuthReqDTO authReqDTO) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(authReqDTO.getUsername(), authReqDTO.getPassword());
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
         return ResResult.success(authService.login(authReqDTO.getUsername(), authReqDTO.getPassword()));
     }
     @PostMapping("/refresh")

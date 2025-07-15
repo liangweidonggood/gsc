@@ -9,15 +9,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final RedisTemplate<String,Object> redisTemplate;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -36,28 +41,50 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getTokenFromRequest(request);
-
-        if (token != null) {
-            try {
-                // 2. 解析 token（符合 [JWT 安全规范](#jwt-security-specifications)）
-                Jws<Claims> parsedToken = jwtUtil.parseToken(token);
-                String username = parsedToken.getPayload().getSubject();
-
-                // 3. 构建认证对象（符合 [Spring Security 认证流程](#spring-security-auth-flow)）
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
-
-                // 4. 设置认证上下文
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (JwtException e) {
+        if (token==null){
+            // Token为空，立即返回401错误
+            jwtAuthenticationEntryPoint.commence(
+                    request,
+                    response,
+                    new AuthenticationCredentialsNotFoundException("token is missing")
+            );
+            return;
+        }
+        try {
+            Jws<Claims> parsedToken = jwtUtil.parseToken(token);
+            //验证token的有效性
+            if (!jwtUtil.isTokenValid(parsedToken)) {
                 jwtAuthenticationEntryPoint.commence(
                         request,
                         response,
-                        new AuthenticationCredentialsNotFoundException("JWT token is invalid", e)
+                        new AuthenticationCredentialsNotFoundException("token is invalid")
                 );
                 return;
             }
+            String username = parsedToken.getPayload().getSubject();
+            List<String> userPerms = (List<String>)  redisTemplate.opsForValue().get("user:permissions:" + username);
+            if (userPerms == null || userPerms.isEmpty()) {
+                jwtAuthenticationEntryPoint.commence(
+                        request,
+                        response,
+                        new AuthenticationCredentialsNotFoundException("用户没有分配权限")
+                );
+                return;
+            }
+            Collection<? extends GrantedAuthority> authorities = userPerms.stream().map(SimpleGrantedAuthority::new).toList();
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    username, null, authorities
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }catch (JwtException e){
+            jwtAuthenticationEntryPoint.commence(
+                    request,
+                    response,
+                    new AuthenticationCredentialsNotFoundException("token is invalid")
+            );
+            return;
         }
+
         filterChain.doFilter(request, response);
     }
 
