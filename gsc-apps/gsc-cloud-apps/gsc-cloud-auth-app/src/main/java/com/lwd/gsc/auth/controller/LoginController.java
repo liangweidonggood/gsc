@@ -1,27 +1,18 @@
 package com.lwd.gsc.auth.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @author lwd
  */
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class LoginController {
     private final AuthenticationManager authenticationManager;
-    @PostMapping("/login")
+/*    @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(
             @RequestParam String username,
             @RequestParam String password,
@@ -52,5 +43,10 @@ public class LoginController {
             errorResponse.put("message", "用户名或密码错误");
             return ResponseEntity.status(401).body(errorResponse);
         }
+    }*/
+
+    @GetMapping("/login")
+    public String login() {
+        return "login"; // 👈 返回 Thymeleaf 模板名（src/main/resources/templates/login.html）
     }
 }
