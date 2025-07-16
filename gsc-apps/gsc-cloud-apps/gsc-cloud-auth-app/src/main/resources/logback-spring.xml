@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%thread] %boldGreen(%logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 主日志：按天+按大小滚动 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/auth-app/sys.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 每天一个目录，每个文件最大2MB -->
+            <fileNamePattern>logs/auth-app/%d{yyyy-MM-dd}/sys.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 错误日志：单独输出到 error 文件 -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/auth-app/error.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/auth-app/%d{yyyy-MM-dd}/error.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- Nacos 客户端日志输出 -->
+    <appender name="NACOS_CONFIG_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/gsc-nacos/config.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/gsc-nacos/%d{yyyy-MM-dd}/config.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="NACOS_NAMING_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/gsc-nacos/naming.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/gsc-nacos/%d{yyyy-MM-dd}/naming.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="NACOS_REMOTE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/gsc-nacos/remote.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/gsc-nacos/%d{yyyy-MM-dd}/remote.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 绑定 Nacos 客户端日志输出到指定 Appender -->
+    <logger name="com.alibaba.nacos.client.config" level="INFO" additivity="false">
+        <appender-ref ref="NACOS_CONFIG_LOG"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="com.alibaba.nacos.client.naming" level="INFO" additivity="false">
+        <appender-ref ref="NACOS_NAMING_LOG"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="com.alibaba.nacos.client.remote" level="INFO" additivity="false">
+        <appender-ref ref="NACOS_REMOTE_LOG"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+
+
+    <!-- Hibernate SQL 日志输出 -->
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE"/>
+
+    <!-- Spring Web 请求日志 -->
+    <logger name="org.springframework.web" level="INFO"/>
+
+    <!-- 业务包日志级别 -->
+    <logger name="com.lwd.gsc.auth" level="DEBUG"/>
+
+    <!-- 开发环境日志设置 -->
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="ERROR_FILE"/>
+        </root>
+    </springProfile>
+
+    <!-- 测试环境日志设置 -->
+    <springProfile name="test">
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
+
+    <!-- 生产环境日志设置 -->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="ERROR_FILE"/>
+        </root>
+    </springProfile>
+</configuration>

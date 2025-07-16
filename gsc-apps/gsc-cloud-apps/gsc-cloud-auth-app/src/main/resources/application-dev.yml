@@ -1,0 +1,21 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import:
+      # 基础配置-非热更新
+      - nacos:auth-db.yaml?group=DEFAULT_GROUP&refreshEnabled=false
+      - nacos:jpa.yaml?group=COMMON_GROUP&refreshEnabled=false
+      - nacos:auth-security.yaml?group=DEFAULT_GROUP&refreshEnabled=false
+      # 业务配置-热更新
+      - nacos:test-refresh.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: cf13885c-8b10-47b7-a6a5-9fd0360766ef
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: cf13885c-8b10-47b7-a6a5-9fd0360766ef
+        file-extension: yaml

@@ -1,6 +1,7 @@
 package com.lwd.gsc.config.auth;
 
-import jakarta.servlet.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -9,27 +10,29 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
+/**
+ * @author lwd
+ */
 @RequiredArgsConstructor
 @Component
-public class PermissionFilter implements Filter {
+public class PermissionFilter extends OncePerRequestFilter {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getServletPath();
+        return !path.startsWith("/api/v1/");
+    }
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         // 获取请求路径和方法
-        String path = httpRequest.getRequestURI();
-        String method = httpRequest.getMethod();
-
-        if (!path.startsWith("/api/v1/") && !"/auth/refresh".equals(path)) {
-            chain.doFilter(request, response);
-            return;
-        }
+        String path = request.getRequestURI();
+        String method = request.getMethod();
 
         //todo 查询该路径需要的权限
         String reqPerm="USER:ADD";
@@ -42,8 +45,8 @@ public class PermissionFilter implements Filter {
         if (authentication == null || !authentication.isAuthenticated()) {
             // 用户未认证（应被JwtAuthFilter拦截，这里做双重保险）
             jwtAuthenticationEntryPoint.commence(
-                    httpRequest,
-                    httpResponse,
+                    request,
+                    response,
                     new AuthenticationCredentialsNotFoundException("未认证，请先登录")
             );
             return;
@@ -55,9 +58,10 @@ public class PermissionFilter implements Filter {
         //判断userPermissions里有没有reqPerm
         if(!userPermissions.contains(reqPerm)){
             //没有权限
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             jwtAuthenticationEntryPoint.commence(
-                    httpRequest,
-                    httpResponse,
+                    request,
+                    response,
                     new AuthenticationCredentialsNotFoundException("权限不足")
             );
             return;

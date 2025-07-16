@@ -1,6 +1,8 @@
 package com.lwd.gsc.config.auth;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.lwd.gsc.utils.JwtUtil;
+import com.lwd.gsc.utils.RedisUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -9,7 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,8 +32,7 @@ import java.util.List;
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final RedisTemplate<String,Object> redisTemplate;
-
+    private final RedisUtils redisUtils;
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
@@ -62,8 +62,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
             String username = parsedToken.getPayload().getSubject();
-            List<String> userPerms = (List<String>)  redisTemplate.opsForValue().get("user:permissions:" + username);
+            List<String> userPerms = redisUtils.getAs("user:permissions:" + username, new TypeReference<>() {});
             if (userPerms == null || userPerms.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 jwtAuthenticationEntryPoint.commence(
                         request,
                         response,

@@ -83,6 +83,8 @@ startup.cmd -m standalone
 # 打包
 ./gradlew --refresh-dependencies build
 ./gradlew :gsc-apps:gsc-boot-app:build
+
+ ./gradlew :gsc-apps:gsc-cloud-apps:gsc-cloud-auth-app:bootRun --args='--debug'
 # 跳过测试
 ./gradlew :gsc-apps:gsc-boot-app:build -x test
 # 运行
@@ -281,6 +283,13 @@ nacos.core.auth.server.identity.value=123
 nacos/nacos
 
 权限控制/用户列表中可以修改密码:nacos123456
+
+
+查询配置
+
+```bash
+http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=auth-db.yaml&group=DEFAULT_GROUP&tenant=cf13885c-8b10-47b7-a6a5-9fd0360766ef
+```
 
 。
 
