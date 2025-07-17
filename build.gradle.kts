@@ -1,3 +1,4 @@
+
 plugins {
     id("org.springframework.boot") version "3.2.9"
     id("io.spring.dependency-management") version "1.1.5"
@@ -17,6 +18,17 @@ allprojects {
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
     }
+    tasks.withType<JavaExec> {
+        jvmArgs = listOf(
+            "-Dfile.encoding=UTF-8",
+            "-Dconsole.encoding=UTF-8"
+        )
+        systemProperties = mapOf(
+            "sun.stdout.encoding" to "UTF-8",
+            "sun.stderr.encoding" to "UTF-8"
+        )
+    }
+
 }
 
 subprojects {
@@ -34,6 +46,7 @@ subprojects {
             dependency("mysql:mysql-connector-java:8.0.33")
             dependency("com.alibaba:druid-spring-boot-3-starter:1.2.25")
             dependency("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.4.0")
+            dependency("com.github.xiaoymin:knife4j-aggregation-spring-boot-starter:4.5.0")
             dependency("io.jsonwebtoken:jjwt-api:0.12.6")
             dependency("io.jsonwebtoken:jjwt-impl:0.12.6")
             dependency("io.jsonwebtoken:jjwt-jackson:0.12.6")

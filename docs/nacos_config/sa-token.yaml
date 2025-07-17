@@ -1,0 +1,21 @@
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+## 启动时可以打印 SaManager.getConfig()
+# SaTokenConfig [tokenName=satoken, timeout=2592000, activeTimeout=-1, dynamicActiveTimeout=false, isConcurrent=true, isShare=false, replacedRange=CURR_DEVICE_TYPE, maxLoginCount=12, overflowLogoutMode=LOGOUT, maxTryTimes=12, isReadBody=true, isReadHeader=true, isReadCookie=true, isLastingCookie=true, isWriteHeader=false, logoutRange=TOKEN, isLogoutKeepFreezeOps=false, isLogoutKeepTokenSession=false, rightNowCreateTokenSession=false, tokenStyle=uuid, dataRefreshPeriod=30, tokenSessionCheckLogin=true, autoRenew=true, tokenPrefix=null, cookieAutoFillPrefix=false, isPrint=true, isLog=true, logLevel=trace, logLevelInt=1, isColorLog=true, jwtSecretKey=null, httpBasic=, httpDigest=, currDomain=null, sameTokenTimeout=86400, checkSameToken=false, cookie=SaCookieConfig [domain=null, path=null, secure=false, httpOnly=false, sameSite=null, extraAttrs={}]]
+sa-token:
+  jwt-secret-key: 123lafla3laflaol3lo3lalfaol_123!@#$%^&*()
+  # token 名称（同时也是 cookie 名称）
+  token-name: Authorization
+  token-prefix: Bearer
+  # token 有效期（单位：秒） 默认30天2592000，-1 代表永久有效
+  timeout: 1800
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: false
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true

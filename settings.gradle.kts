@@ -13,6 +13,7 @@ val modules = listOf(
     "gsc-apps:gsc-boot-app",
     "gsc-apps:gsc-cloud-apps",
     "gsc-apps:gsc-cloud-apps:gsc-cloud-auth-app",
+    "gsc-apps:gsc-cloud-apps:gsc-cloud-doc-app",
     "gsc-apps:gsc-cloud-apps:gsc-cloud-gateway-app",
     "gsc-apps:gsc-cloud-apps:gsc-cloud-system-app"
 )

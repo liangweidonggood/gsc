@@ -47,6 +47,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
-        return "login"; // 👈 返回 Thymeleaf 模板名（src/main/resources/templates/login.html）
+        return "login";
     }
 }

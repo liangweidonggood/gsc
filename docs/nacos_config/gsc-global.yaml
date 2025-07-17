@@ -1,0 +1,5 @@
+gsc:
+  excludeUrls:
+    - /swagger-ui/**
+    - /v2/api-docs/**
+    - /doc.html

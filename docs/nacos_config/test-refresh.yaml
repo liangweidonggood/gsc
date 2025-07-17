@@ -1,0 +1,4 @@
+app:
+  test:
+    message: "Hello, this is the initial message."
+    counter: 100
