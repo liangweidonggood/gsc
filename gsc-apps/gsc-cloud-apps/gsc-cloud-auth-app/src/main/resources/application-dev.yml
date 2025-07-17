@@ -9,6 +9,7 @@ spring:
       - nacos:auth-security.yaml?group=DEFAULT_GROUP&refreshEnabled=false
       # 业务配置-热更新
       - nacos:test-refresh.yaml?group=DEFAULT_GROUP&refreshEnabled=true
+      - nacos:gsc-global.yaml?group=DEFAULT_GROUP&refreshEnabled=true
       # 业务配置-非热更新
       - nacos:auth-token.yaml?group=DEFAULT_GROUP&refreshEnabled=false
   cloud:

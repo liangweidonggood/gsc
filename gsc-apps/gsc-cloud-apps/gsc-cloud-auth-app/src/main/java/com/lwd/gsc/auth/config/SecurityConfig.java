@@ -1,6 +1,8 @@
 package com.lwd.gsc.auth.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.Objects;
+
 /**
  * @author lwd
  */
@@ -23,17 +27,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 
-    private final GscConfig gscConfig;
 
+    @RefreshScope
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, ObjectProvider<GscConfig> gscConfig) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/login",
-                                "/login/**",
-                                "/public/**",
-                                "/static/**"
+                                Objects.requireNonNull(gscConfig.getIfAvailable()).getExcludeUrls().toArray(new String[0])
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

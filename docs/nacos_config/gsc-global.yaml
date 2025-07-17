@@ -1,5 +1,15 @@
 gsc:
   excludeUrls:
+    - /login
+    - /login/**
+    - /swagger-resources/**
     - /swagger-ui/**
     - /v2/api-docs/**
+    - /v3/api-docs/**
+    - /webjars/**
     - /doc.html
+    - /knife4j/**
+    - /favicon.ico
+    - /css/**
+    - /js/**
+    - /public/**
