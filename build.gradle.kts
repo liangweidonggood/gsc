@@ -47,6 +47,7 @@ subprojects {
             dependency("com.alibaba:druid-spring-boot-3-starter:1.2.25")
             dependency("com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.4.0")
             dependency("com.github.xiaoymin:knife4j-aggregation-spring-boot-starter:4.5.0")
+            dependency("com.alibaba.csp:sentinel-datasource-nacos:1.8.8")
             dependency("io.jsonwebtoken:jjwt-api:0.12.6")
             dependency("io.jsonwebtoken:jjwt-impl:0.12.6")
             dependency("io.jsonwebtoken:jjwt-jackson:0.12.6")
