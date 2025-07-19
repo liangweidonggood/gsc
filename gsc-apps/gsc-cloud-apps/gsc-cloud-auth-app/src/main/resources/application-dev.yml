@@ -7,6 +7,8 @@ spring:
       - nacos:auth-db.yaml?group=DEFAULT_GROUP&refreshEnabled=false
       - nacos:jpa.yaml?group=COMMON_GROUP&refreshEnabled=false
       - nacos:auth-security.yaml?group=DEFAULT_GROUP&refreshEnabled=false
+      # 基础配置-热更新
+      - nacos:springdoc.yaml
       # 业务配置-热更新
       - nacos:test-refresh.yaml?group=DEFAULT_GROUP&refreshEnabled=true
       - nacos:gsc-global.yaml?group=DEFAULT_GROUP&refreshEnabled=true

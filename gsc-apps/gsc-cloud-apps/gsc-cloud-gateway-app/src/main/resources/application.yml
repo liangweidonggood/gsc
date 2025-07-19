@@ -1,0 +1,31 @@
+server:
+  port: 9092
+  shutdown: graceful
+  undertow:
+    threads:
+      worker: 8                   # 处理业务逻辑CPU 核心数 × 2
+      io: 4                       # 用于网络数据读写CPU 核心数
+    buffer-size: 16384            # 16KB
+    direct-buffers: true          # 直接内存
+    max-http-post-size: 50MB      # 最大HTTP POST大小
+    no-request-timeout: 60000     # 无请求超时时间60秒
+spring:
+  application:
+    name: gateway-service
+  profiles:
+    active: dev
+  lifecycle:
+    timeout-per-shutdown-phase: 30s # 停机过程超时时长设置
+management:
+  endpoint:
+    heapdump:
+      enabled: false #堆转储关闭
+    env:
+      enabled: false #关闭env，有安全漏洞
+    health:
+      probes:
+        enabled: true #开启health探针端点
+  endpoints:
+    web:
+      exposure:
+        include: health

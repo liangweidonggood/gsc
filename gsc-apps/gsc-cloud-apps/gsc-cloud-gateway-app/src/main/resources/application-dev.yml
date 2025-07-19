@@ -1,0 +1,43 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import:
+      - nacos:test-refresh.yaml
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: cf13885c-8b10-47b7-a6a5-9fd0360766ef
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: cf13885c-8b10-47b7-a6a5-9fd0360766ef
+        file-extension: yaml
+    gateway:
+      discovery:
+        locator:
+          # 启用服务发现
+          enabled: true
+          lower-case-service-id: true
+      # 网关路由
+      routes:
+        # 外部调用,三种方式，推荐用第一种，统一api前缀
+        # http://localhost:9092/api/auth/public/getKey
+        # http://localhost:9092/test/service?svc=auth-service&path=public/getKey
+        # http://localhost:9092/auth-service/public/getKey
+        - id: 认证中心
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=2
+
+knife4j:
+  gateway:
+    enabled: true
+    # 指定服务发现的模式聚合微服务文档，并且是默认 default 分组
+    strategy: discover
+    discover:
+      # OpenAPI 3.0 规范
+      version: openapi3
+      enabled: true
