@@ -1,4 +1,4 @@
-package com.lwd.gsc.auth.utils;
+package com.lwd.gsc.common.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

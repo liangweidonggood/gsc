@@ -46,6 +46,10 @@ dependencies {
     //JPA 元模型生成器
     annotationProcessor ("org.hibernate.orm:hibernate-jpamodelgen")
 
+
+    //模块依赖
+    implementation(project(":gsc-biz:gsc-biz-common:gsc-biz-common-core"))
+    implementation(project(":gsc-biz:gsc-biz-common:gsc-biz-common-config"))
 }
 // 配置测试任务使用 JUnit 5
 tasks.test {

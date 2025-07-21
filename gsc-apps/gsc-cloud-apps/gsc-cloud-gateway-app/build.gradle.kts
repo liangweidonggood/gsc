@@ -13,6 +13,11 @@ dependencies {
     implementation("com.alibaba.csp:sentinel-datasource-nacos")
     implementation("com.github.xiaoymin:knife4j-gateway-spring-boot-starter")
     implementation("com.fasterxml.jackson.core:jackson-databind")
+
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+
+
+    //模块依赖
+    implementation(project(":gsc-biz:gsc-biz-common:gsc-biz-common-core"))
 }
