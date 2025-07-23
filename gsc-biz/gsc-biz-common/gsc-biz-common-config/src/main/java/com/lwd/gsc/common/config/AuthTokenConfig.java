@@ -1,4 +1,4 @@
-package com.lwd.gsc.auth.config;
+package com.lwd.gsc.common.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

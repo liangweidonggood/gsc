@@ -1,5 +1,3 @@
-import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
-
 plugins {
     id("java-library")
 }
@@ -55,4 +53,3 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
-

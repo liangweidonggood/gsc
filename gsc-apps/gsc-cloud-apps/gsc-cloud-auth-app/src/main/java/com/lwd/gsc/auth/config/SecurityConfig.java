@@ -1,5 +1,6 @@
 package com.lwd.gsc.auth.config;
 
+import com.lwd.gsc.common.config.GscConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
