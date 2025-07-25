@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -42,7 +43,7 @@ public class CustomErrorController implements ErrorController {
             int status = (int) error.getOrDefault("status", 500);
             String message = (String) error.getOrDefault("error", "Unknown Error");
 
-            if (status == ResultCode.NOT_FOUND.code()) {
+            if (status == HttpStatus.NOT_FOUND.value()) {
                 return ResResult.fail(ResultCode.NOT_FOUND);
             }
 

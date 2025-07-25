@@ -19,5 +19,6 @@ dependencies {
 
 
     //模块依赖
+    implementation(project(":gsc-biz:gsc-biz-common:gsc-biz-common-config"))
     implementation(project(":gsc-biz:gsc-biz-common:gsc-biz-common-core"))
 }

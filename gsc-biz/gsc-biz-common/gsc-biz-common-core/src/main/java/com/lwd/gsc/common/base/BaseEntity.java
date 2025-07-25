@@ -2,6 +2,7 @@ package com.lwd.gsc.common.base;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -16,7 +17,8 @@ import java.time.LocalDateTime;
 @Data
 public class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "snowflake")
+    @GenericGenerator(name = "snowflake", type = JpaSnowflakeIdGenerator.class)
     @Column(name = "id")
     private Long id;
 

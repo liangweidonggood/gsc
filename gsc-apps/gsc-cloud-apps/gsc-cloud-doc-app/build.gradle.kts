@@ -1,8 +1,0 @@
-plugins {
-    id("java-library")
-}
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
-    implementation("com.github.xiaoymin:knife4j-aggregation-spring-boot-starter")
-}
