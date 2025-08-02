@@ -1,4 +1,4 @@
-package com.lwd.gsc.common.enums;
+package com.lwd.gsc.sys.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,24 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 通用启用状态枚举
+ * 登录状态枚举
  * @author lwd
+ *
  */
 @Getter
 @AllArgsConstructor
-public enum EnableStatus {
-    DISABLED( "未启用"),
-    ENABLED("已启用");
-
+public enum LoginStatus {
+    SUCCESS("成功"),
+    FAIL("失败");
     private final String description;
-
     /**
      * 获取字典
      * @return 字典
      */
     public static List<Map<String, String>> getDict() {
         List<Map<String, String>> dict = new ArrayList<>();
-        for (EnableStatus enu : values()) {
+        for (LoginStatus enu : values()) {
             Map<String, String> item = new HashMap<>();
             item.put("name", enu.name());
             item.put("description", enu.getDescription());

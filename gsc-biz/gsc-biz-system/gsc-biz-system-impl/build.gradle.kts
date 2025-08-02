@@ -6,11 +6,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     implementation(project(":gsc-biz:gsc-biz-common:gsc-biz-common-core"))
+    //JPA 元模型生成器
+    annotationProcessor ("org.hibernate.orm:hibernate-jpamodelgen")
 }
 tasks.test {
     useJUnitPlatform()

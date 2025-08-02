@@ -11,30 +11,30 @@ import org.hibernate.annotations.Comment;
 
 import java.io.Serial;
 import java.io.Serializable;
+
 /**
- * 岗位角色关联表
  * @author lwd
  */
 @Entity
-@Table(name = "sys_post_role",schema = "gsc_sys",uniqueConstraints = {
-        @UniqueConstraint(columnNames ={SysPostRole_.POST_ID,SysPostRole_.ROLE_ID})
+@Table(name = "sys_role_permisstion",schema = "gsc_sys",uniqueConstraints = {
+        @UniqueConstraint(columnNames ={SysRolePermission_.ROLE_ID,SysRolePermission_.PERMISSION_ID})
 })
-@Comment("岗位角色关联表")
+@Comment("角色权限关联表")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class SysPostRole extends BaseEntity implements Serializable {
+public class SysRolePermission extends BaseEntity implements Serializable {
 
 
     @Serial
-    private static final long serialVersionUID = -4837613647050636074L;
-
-    /**岗位id**/
-    @Column(nullable = false)
-    @Comment("岗位id")
-    private Long postId;
+    private static final long serialVersionUID = -5365301847860203764L;
 
     /**角色id**/
     @Column(nullable = false)
     @Comment("角色id")
     private Long roleId;
+
+    /**权限id**/
+    @Column(nullable = false)
+    @Comment("权限id")
+    private Long permissionId;
 }

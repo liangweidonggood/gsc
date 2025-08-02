@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://127.0.0.1:5432/postgres?stringtype=unspecified&useUnicode=true&characterEncoding=utf-8&ssl=false&serverTimezone=Asia/Shanghai
+      username: postgres
+      password: 1234
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      remove-abandoned: true
+      remove-abandoned-timeout: 60
+      validation-query: SELECT 1
+      test-while-idle: true
+      time-between-eviction-runs-millis: 15000
+      min-evictable-idle-time-millis: 60000
+      keep-alive: true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: admin
+        login-password: admin123456
+        allow: 0.0.0.0/0
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.css,/druid/*"
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        column_ordering_strategy: legacy
+  sql:
+    init:
+      mode: always
+      data-locations: classpath*:sql/data.sql
+      continue-on-error: false
